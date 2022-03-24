@@ -7,6 +7,16 @@
     <groupId>xyz.yuanmo</groupId>
     <artifactId>springboot-core</artifactId>
     <version>1.0.0</version>
+    <packaging>jar</packaging>
+    <description>
+        Jesus saved my soul
+    </description>
+
+    <scm>
+        <connection>scm:git:git://github.com/Matthew-Han/springboot-core</connection>
+        <developerConnection>scm:git:git://github.com/Matthew-Han/springboot-core</developerConnection>
+        <url>https://github.com/matthew-han/springboot-core</url>
+    </scm>
 
     <licenses>
         <license>
