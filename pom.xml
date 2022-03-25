@@ -4,19 +4,22 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>xyz.yuanmo</groupId>
+    <groupId>io.github.matthew-han</groupId>
     <artifactId>springboot-core</artifactId>
     <version>1.0.0</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
+    <name>springboot-core</name>
+    <url>https://github.com/Matthew-Han/springboot-core</url>
     <description>
         Jesus saved my soul
     </description>
-
     <scm>
+        <tag>master</tag>
         <connection>scm:git:git://github.com/Matthew-Han/springboot-core</connection>
         <developerConnection>scm:git:git://github.com/Matthew-Han/springboot-core</developerConnection>
         <url>https://github.com/matthew-han/springboot-core</url>
     </scm>
+
 
     <licenses>
         <license>
@@ -35,8 +38,78 @@
             <roles>
                 <role>Java Developer</role>
             </roles>
+
         </developer>
     </developers>
+
+    <profiles>
+        <profile>
+            <!-- 这个 id 就是打包时的 -P 参数 -->
+            <id>release</id>
+            <build>
+                <plugins>
+                    <!-- Source 插件-->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.2.1</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- Javadoc 插件 -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.2.0</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                </plugins>
+            </build>
+
+            <!-- snapshotRepository 与 repository 的 id 应与 setting.xml 中添加的 server 的 id 一致 -->
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>snapshots</id>
+                    <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+                </snapshotRepository>
+                <repository>
+                    <id>releases</id>
+                    <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+    </profiles>
+
+    <!--
+    mvn gpg:sign-and-deploy-file '-Durl=https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/' '-DrepositoryId=releases' '-DpomFile=target/springboot-core.1.0.0.pom' '-Dfile=target/springboot-core.1.0.0.jar'
+ -->
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -126,6 +199,10 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webflux</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
